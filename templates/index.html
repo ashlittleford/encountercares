@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{{ url_for('submit') }}" method="POST">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="person" class="form-label">Person</label>
+            <input type="text" class="form-control" id="person" name="person" required>
+        </div>
+        <div class="col-md-6">
+            <label for="team_member" class="form-label">Team Member</label>
+            <input type="text" class="form-control" id="team_member" name="team_member" required>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <div class="col-md-6">
+            <label for="site" class="form-label">Site</label>
+            <select class="form-select" id="site" name="site" required>
+                <option value="" selected disabled>Select a site</option>
+                <option value="Henley">Henley</option>
+                <option value="Enfield">Enfield</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Care Types</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="checkin" name="care_types" value="Check-in">
+                <label class="form-check-label" for="checkin">Check-in</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="meals" name="care_types" value="Meals">
+                <label class="form-check-label" for="meals">Meals</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="gifts" name="care_types" value="Gifts">
+                <label class="form-check-label" for="gifts">Gifts</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="referral" name="care_types" value="Referral">
+                <label class="form-check-label" for="referral">Referral</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="notes" name="notes" rows="4"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="plan" class="form-label">Plan</label>
+        <textarea class="form-control" id="plan" name="plan" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Submit Entry</button>
+</form>
+{% endblock %}
