@@ -1,0 +1,105 @@
+:root {
+    --encounter-white: #f1f1f2;
+    --encounter-cream: #fff0d8;
+    --encounter-purple: #262034;
+    --encounter-black: #120c0d;
+}
+
+body {
+    padding-top: 20px;
+    background-color: var(--encounter-white);
+    color: var(--encounter-black);
+}
+
+.container {
+    max-width: 900px;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(38, 32, 52, 0.1); /* Shadow using purple hint */
+    border-top: 5px solid var(--encounter-purple);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--encounter-purple);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--encounter-purple);
+    border-color: var(--encounter-purple);
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--encounter-black) !important;
+    border-color: var(--encounter-black) !important;
+}
+
+.btn-outline-primary {
+    color: var(--encounter-purple);
+    border-color: var(--encounter-purple);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--encounter-purple);
+    border-color: var(--encounter-purple);
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 2px solid var(--encounter-cream);
+}
+
+.nav-tabs .nav-link {
+    color: var(--encounter-purple);
+    border: none;
+    margin-bottom: -2px;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent;
+    background-color: rgba(255, 240, 216, 0.3); /* Transparent cream */
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--encounter-cream);
+    color: var(--encounter-purple);
+    border: none;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+
+/* Logo Placeholder */
+.logo-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: var(--encounter-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: var(--encounter-purple);
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--encounter-purple);
+}
+
+/* Form styling */
+.form-label {
+    color: var(--encounter-purple);
+    font-weight: 500;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--encounter-purple);
+    box-shadow: 0 0 0 0.25rem rgba(38, 32, 52, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--encounter-purple);
+    border-color: var(--encounter-purple);
+}
