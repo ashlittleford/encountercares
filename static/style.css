@@ -6,22 +6,142 @@
 }
 
 body {
-    padding-top: 20px;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--encounter-white);
     color: var(--encounter-black);
-}
-
-.container {
-    max-width: 900px;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(38, 32, 52, 0.1); /* Shadow using purple hint */
-    border-top: 5px solid var(--encounter-purple);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--encounter-purple);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.container {
+    max-width: 800px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(38, 32, 52, 0.05);
+    border: none;
+}
+
+/* Logo Placeholder styling */
+.logo-placeholder {
+    width: 70px;
+    height: 70px;
+    background-color: var(--encounter-cream);
+    color: var(--encounter-purple);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 2px solid rgba(38, 32, 52, 0.05);
+    margin-bottom: 30px !important;
+}
+
+.nav-tabs .nav-link {
+    color: #888;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--encounter-purple);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--encounter-purple);
+    background: transparent;
+    border-bottom: 3px solid var(--encounter-purple);
+    border-radius: 0;
+}
+
+/* Forms */
+.form-label {
+    color: var(--encounter-purple);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: var(--encounter-black);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #fff;
+    border-color: var(--encounter-purple);
+    box-shadow: 0 0 0 4px rgba(38, 32, 52, 0.1);
+    outline: none;
+}
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Checkboxes as Chips */
+.form-check-inline {
+    margin-right: 8px;
+    margin-bottom: 10px;
+    padding-left: 0; /* Reset bootstrap padding */
+}
+
+.form-check-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.form-check-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 50px; /* Pill shape */
+    color: var(--encounter-black);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    font-size: 0.9rem;
+}
+
+.form-check-input:checked + .form-check-label {
+    background-color: var(--encounter-purple);
+    color: #ffffff;
+    border-color: var(--encounter-purple);
+    box-shadow: 0 4px 10px rgba(38, 32, 52, 0.2);
+}
+
+.form-check-input:focus + .form-check-label {
+    box-shadow: 0 0 0 4px rgba(38, 32, 52, 0.1);
 }
 
 /* Buttons */
@@ -29,77 +149,85 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--encounter-purple);
     border-color: var(--encounter-purple);
     color: white;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(38, 32, 52, 0.15);
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
     background-color: var(--encounter-black) !important;
     border-color: var(--encounter-black) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(38, 32, 52, 0.25);
 }
 
 .btn-outline-primary {
     color: var(--encounter-purple);
     border-color: var(--encounter-purple);
+    border-radius: 12px;
 }
 
 .btn-outline-primary:hover {
     background-color: var(--encounter-purple);
-    border-color: var(--encounter-purple);
+    color: white;
 }
 
-/* Navigation Tabs */
-.nav-tabs {
-    border-bottom: 2px solid var(--encounter-cream);
-}
-
-.nav-tabs .nav-link {
-    color: var(--encounter-purple);
+/* Alerts */
+.alert {
+    border-radius: 12px;
     border: none;
-    margin-bottom: -2px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.nav-tabs .nav-link:hover {
-    border-color: transparent;
-    background-color: rgba(255, 240, 216, 0.3); /* Transparent cream */
-}
-
-.nav-tabs .nav-link.active {
-    background-color: var(--encounter-cream);
-    color: var(--encounter-purple);
-    border: none;
-    font-weight: bold;
-    border-radius: 5px 5px 0 0;
-}
-
-/* Logo Placeholder */
-.logo-placeholder {
-    width: 100px;
-    height: 100px;
-    background-color: var(--encounter-cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+/* DataTables customization */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--encounter-purple) !important;
+    color: white !important;
+    border: 1px solid var(--encounter-purple) !important;
     border-radius: 50%;
-    font-size: 14px;
-    color: var(--encounter-purple);
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid var(--encounter-purple);
 }
 
-/* Form styling */
-.form-label {
-    color: var(--encounter-purple);
-    font-weight: 500;
+.dataTables_wrapper .dataTables_filter input {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: var(--encounter-purple);
-    box-shadow: 0 0 0 0.25rem rgba(38, 32, 52, 0.25);
-}
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    body {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
 
-.form-check-input:checked {
-    background-color: var(--encounter-purple);
-    border-color: var(--encounter-purple);
+    .container {
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+    .logo-placeholder {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .form-check-label {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
 }
