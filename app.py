@@ -1,6 +1,8 @@
 import sqlite3
 import os
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+import csv
+import io
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, make_response
 from functools import wraps
 
 app = Flask(__name__)
@@ -112,6 +114,27 @@ def get_entries():
         })
 
     return jsonify({'data': entries_list})
+
+@app.route('/admin/export')
+@login_required
+def export_csv():
+    db = get_db()
+    cursor = db.execute('SELECT * FROM entries ORDER BY date DESC')
+    entries = cursor.fetchall()
+
+    si = io.StringIO()
+    cw = csv.writer(si)
+    # Write header
+    cw.writerow(['ID', 'Person', 'Care Types', 'Date', 'Team Member', 'Notes', 'Plan', 'Site', 'Created At'])
+
+    # Write data
+    for row in entries:
+        cw.writerow([row['id'], row['person'], row['care_types'], row['date'], row['team_member'], row['notes'], row['plan'], row['site'], row['created_at']])
+
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=entries.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
