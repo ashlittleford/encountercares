@@ -234,3 +234,10 @@ textarea.form-control {
         margin-bottom: 5px;
     }
 }
+
+/* Reduce font size for tables in Admin, Snapshot, and Breakdown */
+#entriesTable,
+#snapshotTable,
+.container .table-responsive table {
+    font-size: 0.85rem;
+}

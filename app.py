@@ -2,6 +2,7 @@ import sqlite3
 import os
 import csv
 import io
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, make_response
 from functools import wraps
 
@@ -146,6 +147,97 @@ def logout():
 @login_required
 def admin():
     return render_template('admin.html')
+
+@app.route('/snapshot')
+@login_required
+def snapshot():
+    db = get_db()
+    cursor = db.execute('SELECT * FROM entries')
+    entries = cursor.fetchall()
+
+    people_data = {}
+
+    for row in entries:
+        person = row['person']
+        if not person:
+            continue
+
+        # Normalize name: trim whitespace and capitalize words for display,
+        # but use lowercase for key to handle duplicates
+        normalized_key = person.strip().lower()
+
+        care_types = row['care_types'] or ""
+        date_str = row['date'] # YYYY-MM-DD
+
+        if normalized_key not in people_data:
+            # Use the first encountered name variant as the display name
+            people_data[normalized_key] = {
+                'name': person.strip(),
+                'checkins': 0,
+                'meals': 0,
+                'gifts': 0,
+                'referrals': 0,
+                'last_date': date_str,
+                'last_date_obj': datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.min
+            }
+
+        # Update counts
+        if "Check-in" in care_types:
+            people_data[normalized_key]['checkins'] += 1
+        if "Meals" in care_types:
+            people_data[normalized_key]['meals'] += 1
+        if "Gifts" in care_types:
+            people_data[normalized_key]['gifts'] += 1
+        if "Referral" in care_types:
+            people_data[normalized_key]['referrals'] += 1
+
+        # Update last date
+        if date_str:
+            try:
+                date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                if date_obj > people_data[normalized_key]['last_date_obj']:
+                    people_data[normalized_key]['last_date_obj'] = date_obj
+                    people_data[normalized_key]['last_date'] = date_str
+                    # Update display name to the one from the latest entry?
+                    # Might be better if name changed slightly.
+                    # But let's keep it simple.
+            except ValueError:
+                pass
+
+    # Calculate overdue days
+    today = datetime.now()
+    final_data = []
+
+    for key, data in people_data.items():
+        days_since = 0
+        if data['last_date_obj'] != datetime.min:
+            delta = today - data['last_date_obj']
+            days_since = delta.days
+
+        # Format date for display: DD/MM/YYYY
+        formatted_date = ""
+        if data['last_date']:
+             try:
+                 dt = datetime.strptime(data['last_date'], '%Y-%m-%d')
+                 formatted_date = dt.strftime('%d/%m/%Y')
+             except ValueError:
+                 formatted_date = data['last_date']
+
+        final_data.append({
+            'name': data['name'],
+            'checkins': data['checkins'] if data['checkins'] > 0 else '',
+            'meals': data['meals'] if data['meals'] > 0 else '',
+            'gifts': data['gifts'] if data['gifts'] > 0 else '',
+            'referrals': data['referrals'] if data['referrals'] > 0 else '',
+            'last_date': formatted_date,
+            'last_date_sort': data['last_date'], # Keep for potential sorting
+            'overdue': days_since
+        })
+
+    # Sort by name
+    final_data.sort(key=lambda x: x['name'].lower())
+
+    return render_template('snapshot.html', people=final_data)
 
 @app.route('/api/entries')
 @login_required
