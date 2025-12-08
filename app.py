@@ -135,6 +135,13 @@ def export_csv():
     output.headers["Content-Disposition"] = "attachment; filename=entries.csv"
     output.headers["Content-type"] = "text/csv"
     return output
+@app.route('/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_entry(id):
+    db = get_db()
+    db.execute('DELETE FROM entries WHERE id = ?', (id,))
+    db.commit()
+    return jsonify({'success': True})
 
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):

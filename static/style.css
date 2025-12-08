@@ -29,21 +29,12 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
 }
 
-/* Logo Placeholder styling */
-.logo-placeholder {
-    width: 70px;
-    height: 70px;
-    background-color: var(--encounter-cream);
-    color: var(--encounter-purple);
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+/* Logo styling */
+.logo-img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Navigation Tabs */
