@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Snapshot View</h2>
+
+        <div class="table-responsive">
+            <table id="snapshotTable" class="table table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Site</th>
+                        <th class="text-center">Check-In</th>
+                        <th class="text-center">Meals</th>
+                        <th class="text-center">Gifts</th>
+                        <th class="text-center">Referrals</th>
+                        <th class="text-center">Last Care Date</th>
+                        <th class="text-center">Overdue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in people %}
+                    <tr>
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.site }}</td>
+                        <td class="text-center">{{ person.checkins }}</td>
+                        <td class="text-center">{{ person.meals }}</td>
+                        <td class="text-center">{{ person.gifts }}</td>
+                        <td class="text-center">{{ person.referrals }}</td>
+                        <!-- Use data-order attribute for proper sorting if needed, though YYYY-MM-DD is sortable naturally if used, but here we display DD/MM/YYYY.
+                             So we need data-sort on the td. -->
+                        <td class="text-center" data-order="{{ person.last_date_sort }}">{{ person.last_date }}</td>
+
+                        {% set days = person.overdue %}
+                        {% set cell_class = '' %}
+                        {% if days <= 14 %}
+                            {% set cell_class = 'bg-success text-white' %}
+                        {% elif days <= 31 %}
+                            {% set cell_class = 'bg-warning' %}
+                        {% else %}
+                            {% set cell_class = 'bg-danger text-white' %}
+                        {% endif %}
+
+                        <!-- Using Bootstrap bg- classes directly for stronger colors as per image -->
+                        <td class="text-center {{ cell_class }} fw-bold">{{ days }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#snapshotTable').DataTable({
+            "order": [[ 0, "asc" ]], // Sort by Name ascending
+            "pageLength": 25,
+            "columnDefs": [
+                { "type": "num", "targets": 7 } // Ensure Overdue column is treated as number
+            ]
+        });
+    });
+</script>
+{% endblock %}
