@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="{% if request.endpoint == 'admin' %}container-fluid container-admin{% else %}container{% endif %}">
         <div class="text-center">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Encounter Adelaide Cares Logo" class="logo-img mb-3">
             <h1 class="mb-4">Encounter Adelaide Cares</h1>
