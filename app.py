@@ -46,6 +46,62 @@ def login_required(f):
 def index():
     return render_template('index.html')
 
+@app.route('/breakdown')
+def breakdown():
+    db = get_db()
+    cursor = db.execute('SELECT * FROM entries')
+    entries = cursor.fetchall()
+
+    summary = {}
+
+    for row in entries:
+        # Date format YYYY-MM-DD
+        date_str = row['date']
+        if not date_str or len(date_str) < 4:
+            continue
+        year = date_str[:4]
+
+        if year not in summary:
+            summary[year] = {
+                'checkins': 0,
+                'meals': 0,
+                'gifts': 0,
+                'referrals': 0,
+                'people': set()
+            }
+
+        care_types = row['care_types']
+        if care_types:
+            if "Check-in" in care_types:
+                summary[year]['checkins'] += 1
+            if "Meals" in care_types:
+                summary[year]['meals'] += 1
+            if "Gifts" in care_types:
+                summary[year]['gifts'] += 1
+            if "Referral" in care_types:
+                summary[year]['referrals'] += 1
+
+        person = row['person']
+        if person:
+            # Normalize person name
+            normalized_person = person.strip().lower()
+            summary[year]['people'].add(normalized_person)
+
+    # Convert sets to counts and sort by year descending
+    final_summary = []
+    for year in sorted(summary.keys(), reverse=True):
+        data = summary[year]
+        final_summary.append({
+            'year': year,
+            'checkins': data['checkins'],
+            'meals': data['meals'],
+            'gifts': data['gifts'],
+            'referrals': data['referrals'],
+            'people_count': len(data['people'])
+        })
+
+    return render_template('breakdown.html', summary=final_summary)
+
 @app.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':

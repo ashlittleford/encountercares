@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Yearly Breakdown</h2>
+
+        {% if summary %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Year</th>
+                            <th>Total Check-ins</th>
+                            <th>Meals Provided</th>
+                            <th>Gifts Received</th>
+                            <th>Referrals Offered</th>
+                            <th>People Cared For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in summary %}
+                        <tr>
+                            <td>{{ row.year }}</td>
+                            <td>{{ row.checkins }}</td>
+                            <td>{{ row.meals }}</td>
+                            <td>{{ row.gifts }}</td>
+                            <td>{{ row.referrals }}</td>
+                            <td>{{ row.people_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                No data available yet.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
