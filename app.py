@@ -113,6 +113,14 @@ def get_entries():
 
     return jsonify({'data': entries_list})
 
+@app.route('/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_entry(id):
+    db = get_db()
+    db.execute('DELETE FROM entries WHERE id = ?', (id,))
+    db.commit()
+    return jsonify({'success': True})
+
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
         init_db()

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encounter Adelaide Cares</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +19,7 @@
 <body>
     <div class="container">
         <div class="text-center">
-            <div class="logo-placeholder">Logo</div>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Encounter Adelaide Cares Logo" class="logo-img mb-3">
             <h1 class="mb-4">Encounter Adelaide Cares</h1>
         </div>
 
