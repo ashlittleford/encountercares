@@ -191,6 +191,7 @@ def snapshot():
                 'last_date': date_str,
                 'last_date_obj': datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.min,
                 'last_site': site
+                'last_date_obj': datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.min
             }
 
         # Update counts
