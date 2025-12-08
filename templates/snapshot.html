@@ -10,6 +10,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Site</th>
                         <th class="text-center">Check-In</th>
                         <th class="text-center">Meals</th>
                         <th class="text-center">Gifts</th>
@@ -22,6 +23,7 @@
                     {% for person in people %}
                     <tr>
                         <td>{{ person.name }}</td>
+                        <td>{{ person.site }}</td>
                         <td class="text-center">{{ person.checkins }}</td>
                         <td class="text-center">{{ person.meals }}</td>
                         <td class="text-center">{{ person.gifts }}</td>
@@ -58,6 +60,7 @@
             "order": [[ 0, "asc" ]], // Sort by Name ascending
             "pageLength": 25,
             "columnDefs": [
+                { "type": "num", "targets": 7 } // Ensure Overdue column is treated as number
                 { "type": "num", "targets": 6 } // Ensure Overdue column is treated as number
             ]
         });

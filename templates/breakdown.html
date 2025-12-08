@@ -11,6 +11,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Year</th>
+                            <th>Site</th>
                             <th>Total Check-ins</th>
                             <th>Meals Provided</th>
                             <th>Gifts Received</th>
@@ -20,8 +21,9 @@
                     </thead>
                     <tbody>
                         {% for row in summary %}
-                        <tr>
+                        <tr class="{% if row.site == 'Total' %}fw-bold{% endif %}">
                             <td>{{ row.year }}</td>
+                            <td>{{ row.site }}</td>
                             <td>{{ row.checkins }}</td>
                             <td>{{ row.meals }}</td>
                             <td>{{ row.gifts }}</td>

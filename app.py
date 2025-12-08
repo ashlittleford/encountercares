@@ -62,44 +62,54 @@ def breakdown():
             continue
         year = date_str[:4]
 
+        site = row['site'] # Henley or Enfield (typically)
+
         if year not in summary:
             summary[year] = {
-                'checkins': 0,
-                'meals': 0,
-                'gifts': 0,
-                'referrals': 0,
-                'people': set()
+                'Total': {'checkins': 0, 'meals': 0, 'gifts': 0, 'referrals': 0, 'people': set()},
+                'Henley': {'checkins': 0, 'meals': 0, 'gifts': 0, 'referrals': 0, 'people': set()},
+                'Enfield': {'checkins': 0, 'meals': 0, 'gifts': 0, 'referrals': 0, 'people': set()}
             }
 
+        # Helper to update stats
+        def update_stats(stats, care_types, person):
+            if care_types:
+                if "Check-in" in care_types:
+                    stats['checkins'] += 1
+                if "Meals" in care_types:
+                    stats['meals'] += 1
+                if "Gifts" in care_types:
+                    stats['gifts'] += 1
+                if "Referral" in care_types:
+                    stats['referrals'] += 1
+            if person:
+                normalized_person = person.strip().lower()
+                stats['people'].add(normalized_person)
+
         care_types = row['care_types']
-        if care_types:
-            if "Check-in" in care_types:
-                summary[year]['checkins'] += 1
-            if "Meals" in care_types:
-                summary[year]['meals'] += 1
-            if "Gifts" in care_types:
-                summary[year]['gifts'] += 1
-            if "Referral" in care_types:
-                summary[year]['referrals'] += 1
-
         person = row['person']
-        if person:
-            # Normalize person name
-            normalized_person = person.strip().lower()
-            summary[year]['people'].add(normalized_person)
 
-    # Convert sets to counts and sort by year descending
+        # Update Total
+        update_stats(summary[year]['Total'], care_types, person)
+
+        # Update Site specific
+        if site in ['Henley', 'Enfield']:
+            update_stats(summary[year][site], care_types, person)
+
+    # Convert to list for template
     final_summary = []
     for year in sorted(summary.keys(), reverse=True):
-        data = summary[year]
-        final_summary.append({
-            'year': year,
-            'checkins': data['checkins'],
-            'meals': data['meals'],
-            'gifts': data['gifts'],
-            'referrals': data['referrals'],
-            'people_count': len(data['people'])
-        })
+        for site in ['Henley', 'Enfield', 'Total']:
+            data = summary[year][site]
+            final_summary.append({
+                'year': year,
+                'site': site,
+                'checkins': data['checkins'],
+                'meals': data['meals'],
+                'gifts': data['gifts'],
+                'referrals': data['referrals'],
+                'people_count': len(data['people'])
+            })
 
     return render_template('breakdown.html', summary=final_summary)
 
@@ -168,6 +178,7 @@ def snapshot():
 
         care_types = row['care_types'] or ""
         date_str = row['date'] # YYYY-MM-DD
+        site = row['site']
 
         if normalized_key not in people_data:
             # Use the first encountered name variant as the display name
@@ -178,6 +189,8 @@ def snapshot():
                 'gifts': 0,
                 'referrals': 0,
                 'last_date': date_str,
+                'last_date_obj': datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.min,
+                'last_site': site
                 'last_date_obj': datetime.strptime(date_str, '%Y-%m-%d') if date_str else datetime.min
             }
 
@@ -198,6 +211,7 @@ def snapshot():
                 if date_obj > people_data[normalized_key]['last_date_obj']:
                     people_data[normalized_key]['last_date_obj'] = date_obj
                     people_data[normalized_key]['last_date'] = date_str
+                    people_data[normalized_key]['last_site'] = site
                     # Update display name to the one from the latest entry?
                     # Might be better if name changed slightly.
                     # But let's keep it simple.
@@ -225,6 +239,7 @@ def snapshot():
 
         final_data.append({
             'name': data['name'],
+            'site': data['last_site'],
             'checkins': data['checkins'] if data['checkins'] > 0 else '',
             'meals': data['meals'] if data['meals'] > 0 else '',
             'gifts': data['gifts'] if data['gifts'] > 0 else '',
