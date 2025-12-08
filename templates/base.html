@@ -32,6 +32,9 @@
                 <a class="nav-link {% if request.endpoint == 'breakdown' %}active{% endif %}" href="{{ url_for('breakdown') }}">Breakdown</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'snapshot' %}active{% endif %}" href="{{ url_for('snapshot') }}">Snapshot</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if request.endpoint in ['admin', 'login'] %}active{% endif %}" href="{{ url_for('admin') }}">Admin View</a>
             </li>
             {% if session.get('logged_in') %}
